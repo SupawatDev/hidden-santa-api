@@ -5,7 +5,7 @@ import logger from '../logger';
 
 mongoose.Promise = global.Promise;
 
-const connection = mongoose.connect(config.database.url);
+const connection = mongoose.connect(config.database.uri);
 
 connection.then(db => {
     logger.info(`Successfully connect to ${config.database.uri} MongoDB cluster in ${config.env} mode.`);
