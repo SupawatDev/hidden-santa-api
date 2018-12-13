@@ -14,13 +14,14 @@ const email = data =>{
         })
     }
     return new Promise((resolve,reject)=>{
-        var variables = JSON.stringify(
-            { receiver: data.email.receiver,
-            rules: data.email.rules,
-            img: data.email.img}
-        );
+        
         sendgrid.setApiKey(config.email.sendgrid.secret);
         if(data.type === "quest"){
+            var variables = JSON.stringify(
+                { receiver: data.email.receiver,
+                rules: data.email.rules,
+                img: data.email.img}
+            );
             const msg = ejs.render(
                 
                 fs.readFileSync(__dirname + 'templates/result.ejs','utf16'),variables);
@@ -38,6 +39,21 @@ const email = data =>{
                 ]
             };
             sendgrid.send(obj).then(res=>{resolve(res)}).catch(err=>{logger.error(err);reject(err)});
+        };
+        if(data.type === "welcome"){
+            const variables = JSON.stringify({
+                receiver:data.email.receiver,
+                key: data.email.key
+            });
+            const msg = ejs.render(fs.readFileSync(__dirname + 'templates/result.ejs', 'utf32'),variables);
+            const obj = {
+                to:data.email.to,
+                from:{
+                    name:config.email.sender.default.name,
+                    email:config.email.sender.defaul.email
+                },
+                
+            }
         }
 
     })
