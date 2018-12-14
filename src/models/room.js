@@ -1,8 +1,7 @@
-import mongoose, {Schema} from 'mongoose';
-import email from '../shared/email';
-
-
-export const RoomSchema = new Schema(
+var mongoose = require('mongoose');
+//import email from '../shared/email';
+const schema = mongoose.Schema;
+const RoomSchema = new schema(
     {
         room:{
             type:String,
@@ -50,16 +49,17 @@ RoomSchema.pre('save', function(next){
     if(!this.isNew){
         next();
     }else{
-        email({type: "welcome",email:this.host})
+        console.log('saving');
+        /*email({type: "welcome",email:this.host})
         .then(()=>{
             next();
         })
         .catch(err =>{
-            logger.error(err);
+            console.log(err);
             next();
-        })
+        })*/
+        next();
     }
 })
 
-RoomSchema.index({room:1})
-module.exports = exports = mongoose.model('Room',RoomSchema);
+module.exports =  Room = mongoose.model('Room',RoomSchema);
