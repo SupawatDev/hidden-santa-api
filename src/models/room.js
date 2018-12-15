@@ -7,14 +7,13 @@ const RoomSchema = new schema(
             type:String,
             required: true
         },
-        key:{
+        roomkey:{
             type:String,
             required: true,
             unique: true
         },
         url:{
             type:String,
-            required: true,
             trim: true,
         },
         host:{
@@ -39,6 +38,12 @@ const RoomSchema = new schema(
                     required: true,
                     trim: true,
                     unique: true
+                },
+                image:{
+                    type:String
+                },
+                join:{
+                    type: Date
                 }
             }
         ]
@@ -50,14 +55,7 @@ RoomSchema.pre('save', function(next){
         next();
     }else{
         console.log('saving');
-        /*email({type: "welcome",email:this.host})
-        .then(()=>{
-            next();
-        })
-        .catch(err =>{
-            console.log(err);
-            next();
-        })*/
+        this.url = Math.random().toString(36).substring(7);
         next();
     }
 })
